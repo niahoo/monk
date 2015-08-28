@@ -3,13 +3,16 @@ defmodule Monk.Mixfile do
 
   def project do
     [app: :monk,
-     version: "0.1.1",
+     version: "0.1.2",
      elixir: "~> 1.0",
      description: "Monk helps to distinguish good from evil with an simple ok/error monad",
      package: [
        contributors: ["Ludovic Demblans"],
        licenses: ["MIT"],
-       links: %{"GitHub" => "https://github.com/niahoo/monk"}
+       links: %{
+         "GitHub" => "https://github.com/niahoo/monk",
+         "Hex Docs" => "http://hexdocs.pm/monk/overview.html"
+       }
      ],
      deps: deps]
   end
