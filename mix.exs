@@ -19,6 +19,8 @@ defmodule Monk.Mixfile do
   end
 
   defp deps do
-    []
+    [
+      {:dogma, git: "https://github.com/lpil/dogma.git", ref: "HEAD", only: :dev}
+  	]
   end
 end
