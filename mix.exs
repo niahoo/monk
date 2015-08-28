@@ -3,7 +3,7 @@ defmodule Monk.Mixfile do
 
   def project do
     [app: :monk,
-     version: "0.1.0",
+     version: "0.1.1",
      elixir: "~> 1.0",
      description: "Monk helps to distinguish good from evil with an simple ok/error monad",
      package: [
@@ -20,7 +20,9 @@ defmodule Monk.Mixfile do
 
   defp deps do
     [
-      {:dogma, git: "https://github.com/lpil/dogma.git", ref: "HEAD", only: :dev}
-  	]
+      {:dogma, git: "https://github.com/lpil/dogma.git", ref: "HEAD", only: :dev},
+      {:ex_doc, "~> 0.8.4", only: :dev},
+      {:earmark, ">= 0.0.0", only: :dev},
+    ]
   end
 end

@@ -1,0 +1,292 @@
+    <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    
+        <title>Monk – monk v0.1.1</title>
+      
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc">
+
+    <link rel="stylesheet" href="dist/app.css">
+  </head>
+  <body>
+
+    
+    <div class="row row-offcanvas row-offcanvas-left">
+<section id="sidebar" class="col-xs-6 col-sm-3 sidebar-offcanvas">
+  <p class="pull-right visible-xs">
+  <button type="button" class="btn btn-default btn-sm" data-toggle="offcanvas">
+    <span class="glyphicon glyphicon-search"></span>
+  </button>
+  </p>
+
+  <h1 id="full_list_header">
+    
+      monk v0.1.1
+    
+  </h1>
+
+  <h2 id="sub_list_header">
+    
+    <a href="overview.html">Overview</a>
+  </h2>
+
+  <div class="nav">
+    
+      <span><a id="modules_list" href="#full_list">Modules</a></span>
+    
+    
+      <span role="presentation" class="disabled">Exceptions</span>
+    
+    
+      <span role="presentation" class="disabled">Protocols</span>
+    
+  </div>
+
+  <div id="search">
+    <div class="col-xs-10">
+      <div class="input-group input-group-sm">
+        <label for="search_field" class="sr-only">Search</label>
+        <input type="text" id="search_field" class="form-control" placeholder="Search" autocomplete="off" autofocus="autofocus" results="0">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+        </span>
+      </div><!-- /input-group -->
+    </div><!-- /.col-xs-10 -->
+    <div class="col-xs-2" id="spinning">
+      <span></span>
+    </div><!-- /.col-xs-2 -->
+  </div><!-- /#search .row -->
+
+  <script src="dist/sidebar_items.js" defer></script>
+
+  <ul id="full_list">
+  </ul>
+
+  <div id="no_results"></div>
+</section><!--/.sidebar-offcanvas -->
+<section id="content" class="col-xs-12 col-sm-9">
+
+
+      <div class="breadcrumbs">
+        <button type="button" class="btn btn-default btn-sm" data-toggle="offcanvas">
+          <span class="glyphicon glyphicon-menu-hamburger"></span>
+        </button>
+        monk v0.1.1 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Monk.html#content">Monk</a>
+      </div>
+
+      <h1>
+        Monk
+        
+      </h1>
+
+      <ul class="summary_links">
+        
+          <li><a href="#summary_details">Summary</a></li>
+        
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+          <li><a href="#macros_details">Macros</a></li>
+        
+        
+      </ul>
+
+      
+        <section id="moduledoc" class="docstring">
+          <p>Monk is your everyday <code class="inline">:ok | :error</code> monad.</p>
+<p>The monk macro allows you to pipe functions that accept a mere value, and
+returns wrapped values like <code class="inline">{ok:, val}</code> or <code class="inline">{:error, val}</code>.</p>
+<p>If a function returns <code class="inline">{:error, reason}</code>, the subsequent functions in the pipe
+will <em>not</em> be called and the result of the whole expression will be the
+<code class="inline">{:error, _}</code> tuple</p>
+<p>Of course, you need to <code class="inline">use Monk</code> to be able to call the macro.</p>
+<p>Two syntaxes are supported :</p>
+<pre><code class="elixir">result = monk data |&gt; map |&gt; reduce
+
+monk do
+  some |&gt; nice |&gt; piping
+end</code></pre>
+<p>If you except an error from a function, you can catch the error and continue
+through the pipe with the ok/1 function. The next function will receive the
+<code class="inline">{:error, reason}</code> tuple as it’s first argument. Here, <code class="inline">report_error</code> receives
+any value that is returned by <code class="inline">do_things</code></p>
+<pre><code class="elixir">monk bad_data |&gt; ok(do_things) |&gt; report_error</code></pre>
+<p>This could be read as the following :</p>
+<pre><code class="elixir">{:ok, d} = bad_data()
+{:ok, {:error, e}} = ok(do_things(d))
+report_error({:error, e})</code></pre>
+
+        </section>
+      
+
+      
+
+      
+        <section id="summary_details" class="details_list">
+          <h1>Summary</h1>
+          <table class="summary">
+            <tr>
+  <td class="summary_signature"><a href="#err/1">err(reason)</a></td>
+  <td class="summary_synopsis"><p>Wraps an error description in a {:error, _} tuple. Values already wrapped are
+not touched</p>
+</td>
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#monk/1">monk(pipe_expr)</a></td>
+  <td class="summary_synopsis"></td>
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#ok/1">ok(val)</a></td>
+  <td class="summary_synopsis"><p>Wraps a value in a {:ok, _} tuple. Values already wrapped are not touched</p>
+</td>
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#unwrap/1">unwrap(val)</a></td>
+  <td class="summary_synopsis"><p>Unwraps all levels of {:ok, <em>} or {:error, </em>} wrappings</p>
+</td>
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#wrap/1">wrap(val)</a></td>
+  <td class="summary_synopsis"><p>Wraps a term in a {:ok, _} tuple or in an error if the value is either nil or
+the :error atom. Values already wrapped are not touched</p>
+</td>
+</tr>
+
+          </table>
+        </section>
+      
+
+      
+
+      
+        <section id="functions_details" class="details_list">
+          <h1>Functions</h1>
+          <section class="detail">
+  <div class="detail_header" id="err/1">
+    <span class="signature"><strong>err(reason)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#err/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>err(term) :: {:error, term}</li>
+      
+    </ul>
+  
+  <section class="docstring">
+    <p>Wraps an error description in a {:error, _} tuple. Values already wrapped are
+not touched.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="ok/1">
+    <span class="signature"><strong>ok(val)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#ok/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>ok(term) :: {:ok, term}</li>
+      
+    </ul>
+  
+  <section class="docstring">
+    <p>Wraps a value in a {:ok, _} tuple. Values already wrapped are not touched.</p>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="unwrap/1">
+    <span class="signature"><strong>unwrap(val)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#unwrap/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    <p>Unwraps all levels of {:ok, <em>} or {:error, </em>} wrappings.</p>
+<p>The top wrap defines what is unwrapped. If the top wrap is :ok, the :error
+wraps will not be removed :</p>
+<pre><code class="elixir">unwrap({:ok,{:ok,{:error,val}}}) -&gt; {:error,val}</code></pre>
+
+  </section>
+  
+</section>
+<section class="detail">
+  <div class="detail_header" id="wrap/1">
+    <span class="signature"><strong>wrap(val)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#wrap/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+    <p>Specs:</p>
+    <ul class="spec">
+      
+        <li>wrap(term) :: {:error, term} | {:ok, term}</li>
+      
+    </ul>
+  
+  <section class="docstring">
+    <p>Wraps a term in a {:ok, _} tuple or in an error if the value is either nil or
+the :error atom. Values already wrapped are not touched.</p>
+
+  </section>
+  
+</section>
+
+        </section>
+      
+
+      
+        <section id="macros_details" class="details_list">
+          <h1>Macros</h1>
+          <section class="detail">
+  <div class="detail_header" id="monk/1">
+    <span class="signature"><strong>monk(pipe_expr)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(macro)</span>
+      <a href="#monk/1" class="detail_link" title="Link to this macro">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <section class="docstring">
+    
+  </section>
+  
+</section>
+
+        </section>
+      
+
+      
+      </section> <!--/content -->
+</div><!--/row -->
+
+    <script src="dist/app.js"></script>
+  </body>
+</html>
+

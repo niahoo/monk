@@ -41,37 +41,63 @@ defmodule Monk do
 
   ## -- public API -----------------------------------------------------------
 
-  def ok({:ok, _} = wrapped), do: wrapped
+  @doc """
+  Wraps a value in a {:ok, _} tuple. Values already wrapped are not touched.
+  """
+  @spec ok(term) :: {:ok, term}
+  def ok({:ok, _} = val), do: val
   def ok(:ok), do: :ok
   def ok(val), do: {:ok, val}
 
-  def err({:error, _} = wrapped), do: wrapped
+  @doc """
+  Wraps an error description in a {:error, _} tuple. Values already wrapped are
+  not touched.
+  """
+  @spec err(term) :: {:error, term}
+  def err({:error, _} = reason), do: reason
   def err(reason), do: {:error, reason}
 
+  @doc """
+  Wraps a term in a {:ok, _} tuple or in an error if the value is either nil or
+  the :error atom. Values already wrapped are not touched.
+  """
+  @spec wrap(term) :: {:error, term} | {:ok, term}
   def wrap(nil),    do: err(nil)
   def wrap(:error), do: err(nil)
-  def wrap({:error, _} = wrapped), do: wrapped
-  def wrap({:ok, _} = wrapped), do: wrapped
+  def wrap({:error, _} = val), do: val
+  def wrap({:ok, _} = val), do: val
   def wrap(val),  do: ok(val)
 
+
+
+  @doc """
+  Unwraps all levels of {:ok, _} or {:error, _} wrappings.
+
+  The top wrap defines what is unwrapped. If the top wrap is :ok, the :error
+  wraps will not be removed :
+
+      unwrap({:ok,{:ok,{:error,val}}}) -> {:error,val}
+
+  """
   def unwrap({:ok, val}), do: unwrap_ok(val)
   def unwrap({:error, reason}), do: unwrap_err(reason)
   def unwrap(val), do: val
 
-  def unwrap_ok({:ok, val}), do: unwrap_ok(val)
-  def unwrap_ok(val), do: val
+  defp unwrap_ok({:ok, val}), do: unwrap_ok(val)
+  defp unwrap_ok(val), do: val
 
-  def unwrap_err({:error, reason}), do: unwrap_err(reason)
-  def unwrap_err(reason), do: reason
+  defp unwrap_err({:error, reason}), do: unwrap_err(reason)
+  defp unwrap_err(reason), do: reason
 
   ## -- macro stuff ----------------------------------------------------------
 
-  defmacro monk(do: pipes) do
-    first_pipe_call(pipes)
+  defmacro monk(do: pipe_expr) do
+    first_pipe_call(pipe_expr)
   end
 
-  defmacro monk(pipes) do
-    quoted = first_pipe_call(pipes)
+  defmacro monk(pipe_expr) do
+    quoted = first_pipe_call(pipe_expr)
+    # IO.puts Macro.to_string quoted
     quoted
   end
 

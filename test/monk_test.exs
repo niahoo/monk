@@ -42,14 +42,18 @@ defmodule MonkTest do
   test "syntax" do
     # we want to support (monk pipes) and (do/end) expressions
     expected = {:ok, 4}
+
     # with parens
     assert monk(1 |> double |> power 2, :any) === expected
+
     # without …
     without_parens = monk 1 |> double |> power 2
     assert without_parens === expected
+
     # without parens and another argument in the end (must be captured)
     trailing = monk 1 |> double |> power 2, :trailing_coma_arg
     assert trailing === expected
+
     # do end syntax
     assert expected === (monk do
       1 |> double |> power 2
@@ -62,7 +66,14 @@ defmodule MonkTest do
   end
 
   test "failures" do
-    assert {:error, "always fail"} === monk 1 |> increment_nowrap |> fails
+    assert {:error, "always fail"} ===
+      monk 1
+      |> increment_nowrap
+      |> fails
+      |> Any.thing
+
+    assert {:error, nil} === monk 1 |> increment_nowrap |> get_nil |> Any.thing
+
     assert {:error, "always fail"} ===
       monk 1
       |> increment_nowrap
@@ -81,12 +92,15 @@ defmodule MonkTest do
     end
   end
 
+  ## tests helpers
+
   defp double(x), do: {:ok, x * 2}
   defp power(x, exp, _ \\ :osef), do: {:ok, pow(x, exp)}
 
   defp increment_nowrap(x), do: x + 1
 
   defp fails(_), do: {:error, "always fail"}
+  defp get_nil(_), do: nil
   defp wins(_) do
     {:ok, "always wins"}
   end
