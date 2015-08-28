@@ -1,0 +1,1 @@
+%{"dogma": {:git, "https://github.com/lpil/dogma.git", "2b030f7d687014302c46c46edb74bba7ce722198", [ref: "HEAD"]}}
