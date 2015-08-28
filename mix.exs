@@ -3,7 +3,7 @@ defmodule Monk.Mixfile do
 
   def project do
     [app: :monk,
-     version: "0.0.1",
+     version: "0.1.0",
      elixir: "~> 1.0",
      description: "Monk helps to distinguish good from evil with an simple ok/error monad",
      package: [

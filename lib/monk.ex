@@ -1,9 +1,9 @@
 defmodule Monk do
   @moduledoc """
-  Monk is your everyday ok/error monad.
+  Monk is your everyday `:ok | :error` monad.
 
-  The monk macro allows you to pipe functions that accept a bare value, and
-  returns values in `{ok:, val}` or `{:error, val}`.
+  The monk macro allows you to pipe functions that accept a mere value, and
+  returns wrapped values like `{ok:, val}` or `{:error, val}`.
 
   If a function returns `{:error, reason}`, the subsequent functions in the pipe
   will *not* be called and the result of the whole expression will be the
