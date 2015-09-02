@@ -11,7 +11,10 @@ returns wrapped values like `{ok:, val}` or `{:error, val}`.
 
 If a function returns `{:error, reason}`, the subsequent functions in the pipe
 will *not* be called and the result of the whole expression will be the
-`{:error, _}` tuple
+`{:error, _}` tuple.
+
+Some functions don't return any data, just `:ok`. The value `:ok` (the single
+atom) will be passed along as-is to the next function in the pipe.
 
 Of course, you need to `use Monk` to be able to call the macro.
 

@@ -92,6 +92,23 @@ defmodule MonkTest do
     end
   end
 
+  test "pass along single :ok atom" do
+    result = monk :ok |> accept_ok
+    assert result === {:ok, :success}
+
+    result = monk "something" |> wrap_any
+    assert result === {:ok, {:wrap, "something"}}
+
+    result = monk "something" |> identity
+    assert result === {:ok, "something"}
+
+    result = monk "something" |> provide_ok
+    assert result === :ok
+
+    result = monk "something" |> ok(provide_ok)
+    assert result === :ok
+  end
+
   ## tests helpers
 
   defp double(x), do: {:ok, x * 2}
@@ -114,5 +131,14 @@ defmodule MonkTest do
   defp pow(a, n) do
     a * pow(a, n-1)
   end
+
+  defp provide_ok(_), do: :ok
+
+  defp identity(x), do: x
+
+  defp wrap_any(x), do: {:wrap, x}
+
+  defp accept_ok(:ok), do: {:ok, :success}
+  defp accept_ok(x), do: {:error, {:not_ok, x}}
 
 end

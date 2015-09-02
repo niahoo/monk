@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     
-        <title>Monk – monk v0.1.2</title>
+        <title>Monk – monk v0.1.3</title>
       
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="ExDoc">
@@ -24,7 +24,7 @@
 
   <h1 id="full_list_header">
     
-      monk v0.1.2
+      monk v0.1.3
     
   </h1>
 
@@ -74,7 +74,7 @@
         <button type="button" class="btn btn-default btn-sm" data-toggle="offcanvas">
           <span class="glyphicon glyphicon-menu-hamburger"></span>
         </button>
-        monk v0.1.2 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Monk.html#content">Monk</a>
+        monk v0.1.3 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Monk.html#content">Monk</a>
       </div>
 
       <h1>
@@ -103,7 +103,9 @@
 returns wrapped values like <code class="inline">{ok:, val}</code> or <code class="inline">{:error, val}</code>.</p>
 <p>If a function returns <code class="inline">{:error, reason}</code>, the subsequent functions in the pipe
 will <em>not</em> be called and the result of the whole expression will be the
-<code class="inline">{:error, _}</code> tuple</p>
+<code class="inline">{:error, _}</code> tuple.</p>
+<p>Some functions don’t return any data, just <code class="inline">:ok</code>. The value <code class="inline">:ok</code> (the single
+atom) will be passed along as-is to the next function in the pipe.</p>
 <p>Of course, you need to <code class="inline">use Monk</code> to be able to call the macro.</p>
 <p>Two syntaxes are supported :</p>
 <pre><code class="elixir">result = monk data |&gt; map |&gt; reduce
